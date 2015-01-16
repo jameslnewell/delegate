@@ -23,7 +23,11 @@ exports.bind = function(el, selector, type, fn, capture){
   return event.bind(el, type, function(e){
     var target = e.target || e.srcElement;
     e.delegateTarget = closest(target, selector, true, el);
-    if (e.delegateTarget) fn.call(el, e);
+    if (e.delegateTarget) {
+      if (e.delegateTarget.disabled !== true) {
+        fn.call(el, e);
+      }
+    }
   }, capture);
 };
 
