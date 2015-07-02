@@ -24,9 +24,14 @@ exports.bind = function(el, selector, type, fn, capture){
     var target = e.target || e.srcElement;
     e.delegateTarget = closest(target, selector, true, el);
     if (e.delegateTarget) {
-      if (e.delegateTarget.disabled !== true) {
-        fn.call(el, e);
+
+      //ignore click events on buttons with the disabled attribute because IE still fires the event
+      if ((e.delegateTarget.tagName === 'INPUT' || e.delegateTarget.tagName === 'BUTTON') && e.delegateTarget.disabled) {
+        return
       }
+
+      fn.call(el, e);
+
     }
   }, capture);
 };
